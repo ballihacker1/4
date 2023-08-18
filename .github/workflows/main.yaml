@@ -16,14 +16,5 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Send Thank you message
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "Thank you for your contribution!"
-            })
+      - name: print github context
+        run: echo "${{ toJson(github) }}"
