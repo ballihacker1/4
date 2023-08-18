@@ -29,5 +29,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: ${{ env.is_success == 'true' && 'Thank you for your contribution!' || 'Sorry, your contribution failed. please see the log.' }}
+              body: "Thank you for your contribution!"
             })
