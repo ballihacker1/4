@@ -15,15 +15,11 @@ jobs:
   send-message:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' }}
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      is_success: ${{ needs.build.result == 'success' }}
     steps:
       - name: Send Thank you message
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
-          github-token: ${{ env.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.issues.createComment({
               issue_number: context.issue.number,
