@@ -9,4 +9,4 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v4
       - name: Test
-        run: go test -v ./...
+        run: go test -v
