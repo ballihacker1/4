@@ -12,3 +12,22 @@ jobs:
           go-version: 1.21
       - name: Test
         run: go test -v
+  send-message:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      is_success: ${{ needs.build.result == 'success' }}
+    steps:
+      - name: Send Thank you message
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: ${{ env.is_success == 'true' && 'Thank you for your contribution!' || 'Sorry, your contribution failed. please see the log.' }}
+            })
