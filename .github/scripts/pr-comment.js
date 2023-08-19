@@ -8,23 +8,7 @@ module.exports = async ({ github, context }) => {
 
   const sender = context.payload.sender.login;
 
-  // Commant to be posted, Thanks to the sender
-  const comment = `Thanks for the PR @${sender}!`;
-
-  const { data: comments } = await github.issues.listComments({
-    owner,
-    repo,
-    issue_number: prNumber,
-  });
-
-  const commentAlreadyExists = comments.find(
-    (comment) => comment.body === comment,
-  );
-
-  if (commentAlreadyExists) {
-    console.log(`The comment "${comment}" already exists`);
-    return;
-  }
+  const comment = `@${sender} Thanks for your PR!`;
 
   await github.rest.issues.createComment({
     owner,
