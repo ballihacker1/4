@@ -13,8 +13,19 @@ jobs:
       - name: Test
         run: go test -v
   send-message:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: print github context
-        run: echo "${{ toJson(github) }}"
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Send Message
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const script = require('./.github/scripts/pr-comment.js')
+            await script.sendMessage({
+              github,
+              context,
+            })
