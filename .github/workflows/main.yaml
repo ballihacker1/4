@@ -25,7 +25,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const script = require('./.github/scripts/pr-comment.js')
-            await script.sendMessage({
+            await script({
               github,
               context,
             })
